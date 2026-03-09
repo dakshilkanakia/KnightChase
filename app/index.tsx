@@ -224,7 +224,7 @@ export default function HomeScreen() {
                   <TextInput
                     style={styles.input}
                     placeholder="Name"
-                    placeholderTextColor="#2a2a42"
+                    placeholderTextColor="#666688"
                     value={username}
                     onChangeText={setUsername}
                     maxLength={16}
@@ -241,7 +241,7 @@ export default function HomeScreen() {
                   <TextInput
                     style={styles.input}
                     placeholder="Name"
-                    placeholderTextColor="#2a2a42"
+                    placeholderTextColor="#666688"
                     value={p2name}
                     onChangeText={setP2name}
                     maxLength={16}
@@ -283,7 +283,7 @@ export default function HomeScreen() {
                 <TextInput
                   style={styles.input}
                   placeholder="Enter username"
-                  placeholderTextColor="#2a2a42"
+                  placeholderTextColor="#666688"
                   value={username}
                   onChangeText={setUsername}
                   maxLength={16}
@@ -300,7 +300,7 @@ export default function HomeScreen() {
                     <TextInput
                       style={[styles.input, styles.codeInput]}
                       placeholder="A3F7"
-                      placeholderTextColor="#2a2a42"
+                      placeholderTextColor="#666688"
                       value={roomCode}
                       onChangeText={(t) => setRoomCode(t.toUpperCase())}
                       maxLength={4}
@@ -384,45 +384,45 @@ const styles = StyleSheet.create({
   titleRow: { flexDirection: 'row', alignItems: 'baseline', gap: 6, marginBottom: 5 },
   titleWhite: { fontSize: 32, fontWeight: '900', color: '#fff', letterSpacing: 4 },
   titleGold: { fontSize: 32, fontWeight: '900', color: '#d4af37', letterSpacing: 4, textShadowColor: 'rgba(212,175,55,0.35)', textShadowOffset: { width: 0, height: 0 }, textShadowRadius: 10 },
-  tagline: { fontSize: 9, color: '#2a2a44', letterSpacing: 3, fontWeight: '700' },
+  tagline: { fontSize: 10, color: '#9999bb', letterSpacing: 3, fontWeight: '700' },
   // Mode picker
   modePicker: { width: '100%', alignItems: 'center', gap: 12 },
-  modePickerLabel: { color: '#252540', fontSize: 10, fontWeight: '700', letterSpacing: 3 },
+  modePickerLabel: { color: '#9999bb', fontSize: 10, fontWeight: '700', letterSpacing: 3 },
   modeRow: { flexDirection: 'row', gap: 12, width: '100%' },
-  modeCardTouch: { flex: 1, borderRadius: 14, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(212,175,55,0.12)', elevation: 8, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.4, shadowRadius: 8 },
+  modeCardTouch: { flex: 1, borderRadius: 14, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(212,175,55,0.2)', elevation: 8, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.4, shadowRadius: 8 },
   modeCard: { padding: 20, alignItems: 'center', gap: 6 },
   modeIconCircle: { width: 48, height: 48, borderRadius: 24, borderWidth: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 4 },
   modeIconText: { fontSize: 22 },
   modeTitle: { fontSize: 16, fontWeight: '900', letterSpacing: 2 },
-  modeSub: { color: '#888', fontSize: 11, fontWeight: '600', letterSpacing: 0.5 },
-  modeDesc: { color: '#333355', fontSize: 10, fontWeight: '600', textAlign: 'center' },
+  modeSub: { color: '#ccccdd', fontSize: 11, fontWeight: '600', letterSpacing: 0.5 },
+  modeDesc: { color: '#9999bb', fontSize: 10, fontWeight: '600', textAlign: 'center' },
   // Card
-  card: { width: '100%', borderRadius: 16, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(212,175,55,0.14)', elevation: 16, shadowColor: '#d4af37', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 16 },
+  card: { width: '100%', borderRadius: 16, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(212,175,55,0.22)', elevation: 16, shadowColor: '#d4af37', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.12, shadowRadius: 16 },
   cardGradient: { padding: 24 },
   cardHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 22 },
   cardHeaderIcon: { fontSize: 22 },
   cardHeaderTitle: { color: '#fff', fontSize: 14, fontWeight: '900', letterSpacing: 1.5 },
-  cardHeaderSub: { color: '#333355', fontSize: 10, fontWeight: '600', letterSpacing: 0.5 },
+  cardHeaderSub: { color: '#8888aa', fontSize: 10, fontWeight: '600', letterSpacing: 0.5 },
   backBtn: { marginLeft: 'auto', padding: 4 },
-  backBtnText: { color: '#333355', fontSize: 16, fontWeight: '700' },
+  backBtnText: { color: '#8888aa', fontSize: 16, fontWeight: '700' },
   // Local inputs
   playerInputRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 18 },
-  playerInputCard: { flex: 1, borderRadius: 10, borderWidth: 1, padding: 12, backgroundColor: 'rgba(255,255,255,0.03)' },
-  playerInputDot: { width: 8, height: 8, borderRadius: 4, marginBottom: 4 },
-  playerInputLabel: { color: '#2a2a42', fontSize: 9, fontWeight: '700', letterSpacing: 1.5, marginBottom: 4 },
+  playerInputCard: { flex: 1, borderRadius: 10, borderWidth: 1.5, padding: 14, backgroundColor: 'rgba(255,255,255,0.07)' },
+  playerInputDot: { width: 9, height: 9, borderRadius: 5, marginBottom: 6 },
+  playerInputLabel: { color: '#aaaacc', fontSize: 10, fontWeight: '800', letterSpacing: 1.5, marginBottom: 8 },
   vsChip: { paddingHorizontal: 6, paddingVertical: 12 },
-  vsText: { color: '#252540', fontSize: 10, fontWeight: '900', letterSpacing: 1 },
+  vsText: { color: '#666688', fontSize: 11, fontWeight: '900', letterSpacing: 1 },
   // Online inputs
-  inputLabel: { color: '#2a2a42', fontSize: 10, fontWeight: '700', letterSpacing: 2, marginBottom: 6 },
+  inputLabel: { color: '#aaaacc', fontSize: 10, fontWeight: '700', letterSpacing: 2, marginBottom: 8 },
   inputWrapper: { marginBottom: 4 },
-  input: { color: '#fff', fontSize: 16, fontWeight: '600', paddingVertical: 6, paddingHorizontal: 2 },
-  inputLine: { height: 1, backgroundColor: 'rgba(212,175,55,0.2)' },
+  input: { color: '#ffffff', fontSize: 17, fontWeight: '600', paddingVertical: 6, paddingHorizontal: 2 },
+  inputLine: { height: 1.5, backgroundColor: 'rgba(212,175,55,0.35)' },
   codeInput: { letterSpacing: 14, fontSize: 26, fontWeight: '800', textAlign: 'center' },
-  error: { color: '#ef4444', fontSize: 11, fontWeight: '600', letterSpacing: 0.5, marginTop: 8, marginBottom: 4 },
+  error: { color: '#f87171', fontSize: 12, fontWeight: '600', letterSpacing: 0.5, marginTop: 8, marginBottom: 4 },
   btnGroup: { gap: 10, marginTop: 16 },
   primaryBtn: { borderRadius: 10, paddingVertical: 14, alignItems: 'center', elevation: 6, shadowColor: '#d4af37', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.35, shadowRadius: 8 },
   primaryBtnText: { color: '#060610', fontWeight: '900', fontSize: 13, letterSpacing: 2 },
-  secondaryBtn: { borderRadius: 10, paddingVertical: 12, alignItems: 'center', borderWidth: 1, borderColor: 'rgba(212,175,55,0.15)' },
-  secondaryBtnText: { color: '#444466', fontWeight: '700', fontSize: 12, letterSpacing: 1.5 },
-  footerHint: { color: '#1a1a2e', fontSize: 10, marginTop: 24, letterSpacing: 1, fontWeight: '600' },
+  secondaryBtn: { borderRadius: 10, paddingVertical: 12, alignItems: 'center', borderWidth: 1, borderColor: 'rgba(212,175,55,0.25)' },
+  secondaryBtnText: { color: '#8888aa', fontWeight: '700', fontSize: 12, letterSpacing: 1.5 },
+  footerHint: { color: '#7777aa', fontSize: 10, marginTop: 24, letterSpacing: 1, fontWeight: '600' },
 });
