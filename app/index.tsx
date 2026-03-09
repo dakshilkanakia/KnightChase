@@ -198,6 +198,13 @@ export default function HomeScreen() {
                 </LinearGradient>
               </TouchableOpacity>
             </View>
+            <TouchableOpacity
+              onPress={() => router.push('/instructions')}
+              activeOpacity={0.7}
+              style={styles.howToBtn}
+            >
+              <Text style={styles.howToBtnText}>? HOW TO PLAY</Text>
+            </TouchableOpacity>
           </Animated.View>
         )}
 
@@ -425,4 +432,6 @@ const styles = StyleSheet.create({
   secondaryBtn: { borderRadius: 10, paddingVertical: 12, alignItems: 'center', borderWidth: 1, borderColor: 'rgba(212,175,55,0.25)' },
   secondaryBtnText: { color: '#8888aa', fontWeight: '700', fontSize: 12, letterSpacing: 1.5 },
   footerHint: { color: '#7777aa', fontSize: 10, marginTop: 24, letterSpacing: 1, fontWeight: '600' },
+  howToBtn: { paddingVertical: 10, paddingHorizontal: 20, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(212,175,55,0.25)', alignSelf: 'center' },
+  howToBtnText: { color: '#9999bb', fontSize: 11, fontWeight: '700', letterSpacing: 2 },
 });
