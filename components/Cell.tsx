@@ -24,144 +24,138 @@ export function Cell({
   onPress,
 }: CellProps) {
   const isLight = (row + col) % 2 === 0;
-  const bgColor = isLight ? '#f0d9b5' : '#b58863';
+  // Richer, more saturated board colors
+  const bgColor = isLight ? '#f0d9b5' : '#a97a56';
 
-  const pulseScale = useRef(new Animated.Value(0.3)).current;
-  const pulseOpacity = useRef(new Animated.Value(0.7)).current;
-  const knightScale = useRef(new Animated.Value(1)).current;
-  const selectedGlow = useRef(new Animated.Value(0)).current;
+  const validOverlay = useRef(new Animated.Value(0.4)).current;
+  const badgeScale = useRef(new Animated.Value(1)).current;
+  const badgeShadow = useRef(new Animated.Value(0)).current;
 
+  // Pulsing green overlay on valid moves
   useEffect(() => {
-    if (isValidMove) {
-      const loop = Animated.loop(
-        Animated.sequence([
-          Animated.parallel([
-            Animated.timing(pulseScale, { toValue: 0.85, duration: 700, useNativeDriver: true }),
-            Animated.timing(pulseOpacity, { toValue: 0.15, duration: 700, useNativeDriver: true }),
-          ]),
-          Animated.parallel([
-            Animated.timing(pulseScale, { toValue: 0.3, duration: 700, useNativeDriver: true }),
-            Animated.timing(pulseOpacity, { toValue: 0.7, duration: 700, useNativeDriver: true }),
-          ]),
-        ])
-      );
-      loop.start();
-      return () => {
-        loop.stop();
-        pulseScale.setValue(0.3);
-        pulseOpacity.setValue(0.7);
-      };
-    }
+    if (!isValidMove) return;
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(validOverlay, { toValue: 0.7, duration: 550, useNativeDriver: true }),
+        Animated.timing(validOverlay, { toValue: 0.25, duration: 550, useNativeDriver: true }),
+      ])
+    );
+    loop.start();
+    return () => { loop.stop(); validOverlay.setValue(0.4); };
   }, [isValidMove]);
 
+  // Selected piece: bounce in + breathing glow
   useEffect(() => {
-    if (isSelected) {
-      const loop = Animated.loop(
-        Animated.sequence([
-          Animated.timing(selectedGlow, { toValue: 1, duration: 900, useNativeDriver: true }),
-          Animated.timing(selectedGlow, { toValue: 0.4, duration: 900, useNativeDriver: true }),
-        ])
-      );
-      loop.start();
-      Animated.spring(knightScale, { toValue: 1.1, useNativeDriver: true, friction: 4 }).start();
-      return () => {
-        loop.stop();
-        selectedGlow.setValue(0);
-        knightScale.setValue(1);
-      };
-    }
+    if (!isSelected) return;
+    Animated.spring(badgeScale, {
+      toValue: 1.12,
+      useNativeDriver: true,
+      tension: 200,
+      friction: 5,
+    }).start();
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(badgeShadow, { toValue: 1, duration: 900, useNativeDriver: true }),
+        Animated.timing(badgeShadow, { toValue: 0.3, duration: 900, useNativeDriver: true }),
+      ])
+    );
+    loop.start();
+    return () => {
+      loop.stop();
+      badgeScale.setValue(1);
+      badgeShadow.setValue(0);
+    };
   }, [isSelected]);
 
   const isKnight = state === 'player1' || state === 'player2';
-  const knightColor = state === 'player1' ? '#ffffff' : '#1a0a00';
-  const knightShadowColor = state === 'player1' ? '#000' : '#d4af37';
-  const ringSize = size * 0.82;
+  const isP1Piece = state === 'player1';
+
+  const badgeSize = size * 0.78;
+  const fontSize = size * 0.5;
+
+  // Badge colors
+  const badgeBg = isP1Piece ? '#f5f0e0' : '#1c0c02';
+  const pieceColor = isP1Piece ? '#0d0500' : '#d4af37';
+  const badgeShadowColor = isP1Piece ? 'rgba(0,0,0,0.55)' : 'rgba(212,175,55,0.5)';
+  const badgeBorderColor = isP1Piece ? 'rgba(0,0,0,0.15)' : 'rgba(212,175,55,0.4)';
 
   return (
     <TouchableOpacity
-      style={[
-        styles.cell,
-        {
-          width: size,
-          height: size,
-          backgroundColor: bgColor,
-        },
-      ]}
+      style={[styles.cell, { width: size, height: size, backgroundColor: bgColor }]}
       onPress={onPress}
-      activeOpacity={isValidMove ? 0.6 : 1}
+      activeOpacity={isValidMove ? 0.75 : 1}
       disabled={!isValidMove}
     >
-      {/* Visited overlay */}
+      {/* Valid move: full-cell green overlay */}
+      {isValidMove && (
+        <Animated.View
+          style={[
+            StyleSheet.absoluteFill,
+            { backgroundColor: '#4ade80', opacity: Animated.multiply(validOverlay, 0.38) },
+          ]}
+        />
+      )}
+
+      {/* Valid move: center dot */}
+      {isValidMove && !isKnight && (
+        <View
+          style={[
+            styles.validDot,
+            { width: size * 0.3, height: size * 0.3, borderRadius: size * 0.15 },
+          ]}
+        />
+      )}
+
+      {/* Visited: dark cross-hatch overlay */}
       {state === 'visited' && (
-        <View style={[styles.visitedOverlay, { backgroundColor: isLight ? 'rgba(0,0,0,0.45)' : 'rgba(0,0,0,0.35)' }]}>
-          <Text style={[styles.visitedX, { fontSize: size * 0.38 }]}>✕</Text>
+        <View style={[styles.visitedOverlay, { opacity: isLight ? 0.52 : 0.42 }]}>
+          {/* Diagonal lines via rotated views */}
+          <View style={styles.visitedLine1} />
+          <View style={styles.visitedLine2} />
         </View>
       )}
 
-      {/* Valid move ring */}
-      {isValidMove && (
-        <Animated.View
-          style={[
-            styles.validRingOuter,
-            {
-              width: ringSize,
-              height: ringSize,
-              borderRadius: ringSize / 2,
-              transform: [{ scale: pulseScale }],
-              opacity: pulseOpacity,
-            },
-          ]}
-        />
-      )}
-      {isValidMove && (
-        <View
-          style={[
-            styles.validDotCenter,
-            {
-              width: size * 0.22,
-              height: size * 0.22,
-              borderRadius: size * 0.11,
-            },
-          ]}
-        />
-      )}
-
-      {/* Selected glow overlay */}
+      {/* Selected: gold border */}
       {isSelected && (
         <Animated.View
           style={[
-            StyleSheet.absoluteFillObject,
-            {
-              backgroundColor: '#d4af37',
-              opacity: Animated.multiply(selectedGlow, 0.18),
-              borderRadius: 2,
-            },
+            StyleSheet.absoluteFill,
+            styles.selectedBorder,
+            { opacity: badgeShadow },
           ]}
         />
       )}
 
-      {/* Selected border */}
-      {isSelected && (
-        <View style={[styles.selectedBorder, { borderRadius: 3 }]} />
-      )}
-
-      {/* Knight piece */}
+      {/* Knight badge */}
       {isKnight && (
-        <Animated.Text
+        <Animated.View
           style={[
-            styles.knight,
+            styles.pieceBadge,
             {
-              fontSize: size * 0.6,
-              color: knightColor,
-              textShadowColor: knightShadowColor,
-              textShadowOffset: { width: 1, height: 2 },
-              textShadowRadius: 4,
-              transform: [{ scale: knightScale }],
+              width: badgeSize,
+              height: badgeSize,
+              borderRadius: badgeSize / 2,
+              backgroundColor: badgeBg,
+              borderColor: badgeBorderColor,
+              shadowColor: badgeShadowColor,
+              shadowRadius: isSelected ? 10 : 5,
+              elevation: isSelected ? 10 : 5,
+              transform: [{ scale: badgeScale }],
             },
           ]}
         >
-          ♞
-        </Animated.Text>
+          <Text
+            style={[
+              styles.knightText,
+              {
+                fontSize,
+                color: pieceColor,
+              },
+            ]}
+          >
+            ♞
+          </Text>
+        </Animated.View>
       )}
     </TouchableOpacity>
   );
@@ -171,33 +165,50 @@ const styles = StyleSheet.create({
   cell: {
     justifyContent: 'center',
     alignItems: 'center',
-    overflow: 'hidden',
+    overflow: 'visible',
+  },
+  pieceBadge: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1.5,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 1,
+    zIndex: 2,
+  },
+  knightText: {
+    fontWeight: '900',
+    lineHeight: undefined,
+    includeFontPadding: false,
+  },
+  validDot: {
+    backgroundColor: '#16a34a',
+    opacity: 0.85,
+    zIndex: 1,
   },
   visitedOverlay: {
     ...StyleSheet.absoluteFillObject,
+    backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 1,
   },
-  visitedX: {
-    color: 'rgba(255,80,80,0.75)',
-    fontWeight: '900',
-  },
-  validRingOuter: {
+  visitedLine1: {
     position: 'absolute',
-    borderWidth: 3,
-    borderColor: '#4ade80',
-    backgroundColor: 'rgba(74,222,128,0.12)',
+    width: '130%',
+    height: 1.5,
+    backgroundColor: 'rgba(255,60,60,0.7)',
+    transform: [{ rotate: '45deg' }],
   },
-  validDotCenter: {
+  visitedLine2: {
     position: 'absolute',
-    backgroundColor: 'rgba(74,222,128,0.55)',
+    width: '130%',
+    height: 1.5,
+    backgroundColor: 'rgba(255,60,60,0.7)',
+    transform: [{ rotate: '-45deg' }],
   },
   selectedBorder: {
-    ...StyleSheet.absoluteFillObject,
     borderWidth: 3,
     borderColor: '#d4af37',
-  },
-  knight: {
-    fontWeight: 'bold',
+    zIndex: 3,
   },
 });

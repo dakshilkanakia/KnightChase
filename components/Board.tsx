@@ -15,7 +15,7 @@ interface BoardProps {
 
 export function Board({ board, validMoves, myPos, playerNumber, onCellPress }: BoardProps) {
   const { width } = useWindowDimensions();
-  const FRAME = 6;
+  const FRAME = 8;
   const cellSize = Math.floor((width - FRAME * 2) / BOARD_SIZE);
   const boardSize = cellSize * BOARD_SIZE;
 
@@ -29,12 +29,12 @@ export function Board({ board, validMoves, myPos, playerNumber, onCellPress }: B
     <View style={styles.outerFrame}>
       {/* Wood frame gradient */}
       <LinearGradient
-        colors={['#5c3d1e', '#3d2009', '#5c3d1e']}
+        colors={['#6b4423', '#3d2009', '#4a2c10', '#3d2009', '#6b4423']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={[
           styles.frame,
-          { padding: FRAME, borderRadius: 6 },
+          { padding: FRAME, borderRadius: 8 },
         ]}
       >
         <View
